@@ -1,37 +1,38 @@
-#spring-oauth-server
+README
 
-###请求
+1.REST API 접근 - 권한을 얻지 못했을 때 
 
-方式1:基于浏览器
- 
- 获取授权码 
+http://localhost:8080/spring-oauth-server/m/dashboard.do 
 
-http://localhost:8080/oauth/authorize?client_id=mobile-client&redirect_uri=http%3a%2f%2flocalhost%3a8080%2fm%2fdashboard.htm&response_type=code&scope=read
+- 결과 
 
- 交换授权码来获得访问令牌
+{ "error": "unauthorized",
+ "error_description": "An Authentication object was not found in the SecurityContext" } 
 
-http://localhost:8080/oauth/token?grant_type=authorization_code&code=t7ol7D&redirect_uri=http%3a%2f%2flocalhost%3a8080%2fm%2fdashboard.htm&client_id=mobile-client&client_secret=mobile
+2. 접근키 얻기 
 
- 授权请求
+http://localhost:8080/spring-oauth-server/oauth/token?client_id=mobile-client&client_secret=mobile&grant_type=password&scope=read,write&username=admin&password=admin 
 
-http://localhost:8080/oauth/authorize?response_type=token&client_id=mobile-client&redirect_uri=http%3a%2f%2flocalhost%3a8080%2fm%2fdashboard.htm&scope=read
+- 결과 
 
- 
- 方式2:基于客户端
+{ "access_token": "497df78a-cca7-4f42-9eea-940c545a49c2",
+ "token_type": "bearer",
+ "refresh_token":"07939a2a-dbf7-47cc-b9d5-a1363604049e", 
+ "expires_in": 34120, 
+ "scope":"read write" } 
 
-http://localhost:8080/oauth/token?client_id=unity-client&client_secret=unity&grant_type=password&scope=read,write&username=admin&password=admin
+3. 접근키로 REST API 접근  
 
- 返回的数据
+http://localhost:8080/spring-oauth-server/m/dashboard.do?access_token=497df78a-cca7-4f42-9eea-940c545a49c2 
 
-{"access_token":"3420d0e0-ed77-45e1-8370-2b55af0a62e8","token_type":"bearer","refresh_token":"b36f4978-a172-4aa8-af89-60f58abe3ba1","expires_in":43199,"scope":"read
-write"} 
- 获取access_token后访问资源
- http://localhost:8080/unity/dashboard.htm?access_token=3420d0e0-ed77-45e1-8370-2b55af0a62e8
+4. 새로운 접근키 생성 - refresh token 사용 
 
+http://localhost:8080/spring-oauth-server/oauth/token?client_id=mobile-client&client_secret=mobile&grant_type=refresh_token&refresh_token=07939a2a-dbf7-47cc-b9d5-a1363604049e 
 
-###部署
+- 결과(기존 생성한 접근키와 리프레시 토큰은 만료됨 ) 
 
-创建MySQL数据库(如数据库名oauth2), 并运行相应的SQL脚本(脚本文件位于others/database目录),
-   运行脚本的顺序: initial_db.ddl -> oauth.ddl -> initial_data.ddl
-
-修改spring-oauth-server.properties(位于src/resources目录)中的数据库连接信息(包括username, password等)
+{ "access_token": "a4a4247b-62fa-451c-8fbe-81e75967bde6",
+ "token_type": "bearer",
+ "refresh_token": "07939a2a-dbf7-47cc-b9d5-a1363604049e",
+ "expires_in": 43199, 
+ "scope":"read write" } 
