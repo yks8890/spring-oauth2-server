@@ -2,8 +2,8 @@
 
 The project uses the following technologies: 
 
-- Web/REST : Spring 3.2.14.RELEASE / Spring Security 3.1.0.RELEASE
-- database : Mysql 5.1.36 / Hibernate 5.3.4 RELEASE
+- Web/REST : Spring 3.1.1.RELEASE / Spring Security 3.1.0.RELEASE
+- database : Mysql 5.1.36 / Mabatis 3.3.0 RELEASE
 - Security : Oauth2 1.0.5.RELEASE 
 - REST API
 - Tool : Eclipse NEON , Java 1.7
@@ -28,7 +28,7 @@ jdbc.password=root
 </code>
 </pre>
 
-6. insert database [DDL](https://github.com/yks8890/spring-oauth2-server/blob/master/spring-oauth-server/others/database/oauth2.ddl)/[DML](https://github.com/yks8890/spring-oauth2-server/blob/master/spring-oauth-server/others/database/oauth2.ddl)
+6. insert database [DDL : spring-oauth-server/others/database/oauth2.ddl](https://github.com/yks8890/spring-oauth2-server/blob/master/spring-oauth-server/others/database/oauth2.ddl)/[DML : spring-oauth-server/others/database/initial_data.ddl](https://github.com/yks8890/spring-oauth2-server/blob/master/spring-oauth-server/others/database/oauth2.ddl)
 7. Run on Server *(Server : Tomcat 7 or Tomcat 8 .etc)*
 
 ## TEST ##
